@@ -18,14 +18,22 @@ set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/Unidb)
 # 添加调试后缀
 set(CMAKE_DEBUG_POSTFIX "d")
 
+find_package(SharedCppLib2 REQUIRED)
+
 # 头文件目录
 include_directories("include")
 
 # 定义所有库
-add_library(unidb STATIC src/unidb.cpp)
+add_library(unidb STATIC src/unidb_typesystem.cpp src/unidb_object.cpp src/unidb_db.cpp)
 
 # 库依赖关系
-# target_link_libraries(logd PUBLIC variant)
+target_link_libraries(unidb PUBLIC SharedCppLib2::basic SharedCppLib2::indexer)
+
+
+if(BUILD_TESTING)
+    add_executable(unidb_test tests/unidb_test.cpp)
+    target_link_libraries(unidb_test PRIVATE unidb)
+endif()
 
 # 安装目标
 install(TARGETS unidb
