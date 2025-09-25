@@ -24,13 +24,15 @@ guid_t generateGUID() {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<uint32_t> dis32(0, 0xFFFFFFFF);
     std::uniform_int_distribution<uint16_t> dis16(0, 0xFFFF);
-    std::uniform_int_distribution<uint8_t> dis8(0, 0xFF);
+    // uniform_int_distribution doesn't support uint8_t directly, so we use uint16_t and split it.
 
     guid.data1 = dis32(gen);
     guid.data2 = dis16(gen);
     guid.data3 = dis16(gen);
-    for(int i = 0; i < 8; i++) {
-        guid.data4[i] = dis8(gen);
+    for(int i = 0; i < 8; i+=2) {
+        uint16_t dist = dis16(gen);
+        guid.data4[i] = dist & 0xFF;
+        guid.data4[i+1] = (dist >> 8) & 0xFF;
     }
 
     return guid;

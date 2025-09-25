@@ -1,0 +1,21 @@
+# Uni DB
+
+English | [中文](README.zh_CN)
+
+This project implements a simple, light-weighted database system, which is completely portable.
+
+## Features
+- Portable: No files are storaged in the local file system.
+
+- Encryption Support (Not present).
+
+
+
+## Warnings
+- These important features are not supported:
+  - Atomic operation
+  - Read/Write Protection
+  - Multiple access point
+  - Real-time sync
+
+So if you want to use it on a portable device, you need to ensure that any application using the database should be closed or saved to disk in advance.

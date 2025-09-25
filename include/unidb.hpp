@@ -32,20 +32,26 @@ private:
 
 class object {
 public:
-    object(object* parent = nullptr);
+    object(object* parent);
     ~object();
 
-    inline object* parent() { return m_parent; };
+    std::bytearray pack() const;
+    bool unpack(const std::bytearray& data);
 
 protected:
-    void __p_registerAsChild(object* child);
-    void __p_unregisterChild(object* child);
+    void __p_registerAsChild(uint64_t child_uid);
+    void __p_unregisterChild(uint64_t child_uid);
+
+    uint64_t __p_getUid() const;
 
 private:
-    object *m_parent;
-    std::vector<object*> m_childrens;
-    std::bytearray m_data;
+    uint64_t m_uid, m_parentuid;
+    std::vector<uint64_t> m_childrens;
+    std::string m_name;
     int m_typeid = -1;
+    std::bytearray m_data;
+
+    friend class ::unidb::db;
 };
 
 class db {
@@ -56,7 +62,7 @@ public:
     inline typesystem& typesystem() { return m_typesystem; }
 
     bool writeFile();
-    
+
     /**
      * @return `true` if read successfully, `false` if file not exists or error occurs
      * @throw `unidb_invalid_db_exception` if file is not a valid unidb database file
@@ -68,10 +74,17 @@ public:
 
     bool setFilename(const fs::path &filepath);
 
+    ::unidb::object* getObjectById(uint64_t uid);
+    ::unidb::object* makeObject(uint64_t parent_uid);
+
+    void defrag();
+
 private:
     ::unidb::typesystem m_typesystem;
     object m_root;
     fs::path m_filepath;
+
+    std::map<uint64_t, ::unidb::object*> m_objectlist;
 };
 
 

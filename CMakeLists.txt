@@ -20,6 +20,18 @@ set(CMAKE_DEBUG_POSTFIX "d")
 
 find_package(SharedCppLib2 REQUIRED)
 
+file(READ "${CMAKE_SOURCE_DIR}/cmake/build_count" CURRENT_BUILD)
+
+# 将字符串转换为数字并加一
+math(EXPR NEW_BUILD "${CURRENT_BUILD} + 1")
+
+# 将新的 Build 号写回文件
+file(WRITE "${CMAKE_SOURCE_DIR}/cmake/build_count" "${NEW_BUILD}")
+
+# 设置版本
+set(PROJECT_VERSION_TWEAK ${NEW_BUILD})
+set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TWEAK})
+
 # 版本信息文件
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.hpp.in"
@@ -57,9 +69,8 @@ target_include_directories(unidb PUBLIC
 )
 
 # 安装头文件
-install(DIRECTORY include/
+install(FILES "include/unidb.hpp" "include/unidb_exception.hpp"
     DESTINATION ${INSTALL_INCLUDEDIR}
-    FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h"
 )
 set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR}/Unidb)
 
@@ -72,7 +83,7 @@ install(EXPORT UniDatabaseTargets
 # 生成配置文件
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/UniDatabaseConfigVersion.cmake
     INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/UniDatabase
 )

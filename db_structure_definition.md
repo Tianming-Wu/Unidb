@@ -15,7 +15,8 @@ extension: .unidb
  - [guid] size = 16, content = guid
  - [encryption] size = 32, reserved
  - [root_offset] size = 8, content = size_type: $rootoffset
- - [reserved] size = 50, reserved
+ - [objectid_count] size = 8, content = size_type:
+ - [reserved] size = 42, reserved
 
 ### [type system] size = *
 -> p = 128
@@ -27,3 +28,10 @@ extension: .unidb
 
 
 ### [content] size = *
+
+
+## Builtin Storage Structures Standard
+### String / ByteArray
+-> offset = 0
+- [size] size = 4, content: $Size
+- [content] size = $Size, content: $Data
