@@ -1,8 +1,16 @@
-#include "unidb.hpp"
+#include "unidb_private.hpp"
 
 namespace unidb {
 
+bool typesystem::registerType(const typeinfo& ti)
+{
+    if(m_typeinfos.find(ti.name) != m_typeinfos.end()) {
+        return false;
+    }
 
+    m_typeinfos.insert(std::make_pair(ti.name, ti));
+    return true;
+}
 
 
 

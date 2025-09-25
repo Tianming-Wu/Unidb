@@ -1,4 +1,4 @@
-#include "unidb.hpp"
+#include "unidb_private.hpp"
 
 namespace unidb {
 
@@ -10,7 +10,9 @@ object::object(object* parent)
 
 object::~object()
 {
-
+    for(auto child : m_childrens) {
+        child->~object();
+    }
 }
 
 void object::__p_registerAsChild(object* child) {

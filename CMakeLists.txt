@@ -20,15 +20,23 @@ set(CMAKE_DEBUG_POSTFIX "d")
 
 find_package(SharedCppLib2 REQUIRED)
 
+# 版本信息文件
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.hpp.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/version.hpp"
+)
+
 # 头文件目录
 include_directories("include")
 
 # 定义所有库
-add_library(unidb STATIC src/unidb_typesystem.cpp src/unidb_object.cpp src/unidb_db.cpp)
+add_library(unidb STATIC src/unidb_typesystem.cpp src/unidb_object.cpp src/unidb_db.cpp src/unidb_delta.cpp)
 
 # 库依赖关系
 target_link_libraries(unidb PUBLIC SharedCppLib2::basic SharedCppLib2::indexer)
 
+# 版本文件链接
+target_include_directories(unidb PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
 if(BUILD_TESTING)
     add_executable(unidb_test tests/unidb_test.cpp)

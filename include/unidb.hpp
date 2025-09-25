@@ -2,7 +2,15 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
+#include <filesystem>
+#include <fstream>
 #include <SharedCppLib2/bytearray.hpp>
+
+#include "version.hpp"
+#include "unidb_exception.hpp"
+
+namespace fs = std::filesystem;
 
 namespace unidb {
 
@@ -14,7 +22,7 @@ class typesystem {
     };
 
     bool registerType(const typeinfo& ti);
-    bool registerType();
+    // bool registerType();
 
 private:
 
@@ -47,8 +55,23 @@ public:
 
     inline typesystem& typesystem() { return m_typesystem; }
 
+    bool writeFile();
+    
+    /**
+     * @return `true` if read successfully, `false` if file not exists or error occurs
+     * @throw `unidb_invalid_db_exception` if file is not a valid unidb database file
+     */
+    bool readFile();
+
+    bool createDB(const fs::path &filepath);
+    inline fs::path filepath() const { return m_filepath; }
+
+    bool setFilename(const fs::path &filepath);
+
 private:
     ::unidb::typesystem m_typesystem;
+    object m_root;
+    fs::path m_filepath;
 };
 
 
