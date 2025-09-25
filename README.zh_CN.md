@@ -1,6 +1,6 @@
 # Uni DB
 
-[English](README) | 中文
+[English](README.md) | 中文
 
 这个项目提供了一个简单，轻量化的数据库系统，并且是完全可携带的。
 

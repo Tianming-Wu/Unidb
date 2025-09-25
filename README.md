@@ -1,6 +1,6 @@
 # Uni DB
 
-English | [中文](README.zh_CN)
+English | [中文](README.zh_CN.md)
 
 This project implements a simple, light-weighted database system, which is completely portable.
 
