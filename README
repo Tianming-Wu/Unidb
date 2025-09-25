@@ -4,15 +4,17 @@ English | [中文](README.zh_CN)
 
 This project implements a simple, light-weighted database system, which is completely portable.
 
+Warning: To properly use this library, you must deal with those exceptions well.
+
 ## Features
 - Portable: No files are storaged in the local file system.
-
+- Custom type: supports register custon types.
 - Encryption Support (Not present).
 
 
 
 ## Warnings
-- These important features are not supported:
+- These useful features are not yet supported, and is not planned for development in the near future:
   - Atomic operation
   - Read/Write Protection
   - Multiple access point

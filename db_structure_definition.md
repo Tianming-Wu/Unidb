@@ -15,23 +15,34 @@ extension: .unidb
  - [guid] size = 16, content = guid
  - [encryption] size = 32, reserved
  - [root_offset] size = 8, content = size_type: $rootoffset
- - [objectid_count] size = 8, content = size_type:
+ - [max_id] size = 8, content = size_type:
  - [reserved] size = 42, reserved
 
 ### [type system] size = *
 -> p = 128
- - [entrysize] size = 8, content = long_integer: $[]
+ - [count] size = 8, content = long_integer: $count
+ 
 
 ### [root object] size = *
 -> p = $rootoffset
- - [] size = 8
-
+ - [children_size] size = 8, content = size_t: $childrenSize
+ - [children] size = {$childrenSize * sizeof(uint64_t)}, content = (children_uid): $Data
 
 ### [content] size = *
-
+-> p
+ - [size] size = 8, content = size_t: #sizeof(this_section)
+ - [uid] size = 8, content = uint64_t: $uid
+ - [name_size] size = 8, content = size_t: $NameSize
+ - [name] size = $NameSize, content = (string): $Data
+ - [parent_uid] size = 8, content = uint64_t: $parentuid
+ - [children_size] size = 8, content = size_t: $childrenSize
+ - [children] size = {$childrenSize * sizeof(uint64_t)}, content = (children_uid): $Data
+ - [type_id] size = 4, content = integer: $type_id
+ - [data_size] size = 8, content = size_t: $dataSize
+ - [data] size = $dataSize, content = (bytearray): $data
 
 ## Builtin Storage Structures Standard
 ### String / ByteArray
 -> offset = 0
-- [size] size = 4, content: $Size
-- [content] size = $Size, content: $Data
+- [size] size = 8, content = size_t: $Size
+- [content] size = $Size, content = (string): $Data
