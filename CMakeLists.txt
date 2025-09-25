@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 
 project(UniDatabase
-    VERSION 0.0.9
+    VERSION 0.1.21
     LANGUAGES CXX
 )
 
@@ -20,12 +20,9 @@ set(CMAKE_DEBUG_POSTFIX "d")
 
 find_package(SharedCppLib2 REQUIRED)
 
+# 递增构建号
 file(READ "${CMAKE_SOURCE_DIR}/cmake/build_count" CURRENT_BUILD)
-
-# 将字符串转换为数字并加一
 math(EXPR NEW_BUILD "${CURRENT_BUILD} + 1")
-
-# 将新的 Build 号写回文件
 file(WRITE "${CMAKE_SOURCE_DIR}/cmake/build_count" "${NEW_BUILD}")
 
 # 设置版本

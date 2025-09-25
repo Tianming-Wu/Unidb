@@ -24,7 +24,7 @@ struct dbHeader {
     guid_t guid;
     uint8_t encryptionInfo[32]; // reserved for future use
     uint64_t rootOffset;
-    uint64_t objectCount;
+    uint64_t max_id;
     uint8_t reserved[42];
 
     bool isValid() const;

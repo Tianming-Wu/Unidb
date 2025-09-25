@@ -27,22 +27,25 @@ class typesystem {
 private:
 
     std::map<std::string, typeinfo> m_typeinfos;
-    int __m_unique_id_distribution = 0;
+    int __m_unique_typeid_distribution = 0;
 };
 
 class object {
 public:
-    object(object* parent);
+    object();
     ~object();
 
     std::bytearray pack() const;
     bool unpack(const std::bytearray& data);
 
 protected:
-    void __p_registerAsChild(uint64_t child_uid);
-    void __p_unregisterChild(uint64_t child_uid);
+    void __p_setParent(uint64_t parent_uid);
+
+    void __p_addChild(uint64_t child_uid);
+    void __p_removeChild(uint64_t child_uid);
 
     uint64_t __p_getUid() const;
+    void __p_setUid(uint64_t id);
 
 private:
     uint64_t m_uid, m_parentuid;
@@ -75,7 +78,7 @@ public:
     bool setFilename(const fs::path &filepath);
 
     ::unidb::object* getObjectById(uint64_t uid);
-    ::unidb::object* makeObject(uint64_t parent_uid);
+    ::unidb::object* makeObject();
 
     void defrag();
 
@@ -85,6 +88,8 @@ private:
     fs::path m_filepath;
 
     std::map<uint64_t, ::unidb::object*> m_objectlist;
+
+    int __m_unique_typeid_distribution = 1;
 };
 
 
