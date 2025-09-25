@@ -4,7 +4,8 @@ English | [中文](README.zh_CN.md)
 
 This project implements a simple, light-weighted database system, which is completely portable.
 
-> [!WARNING] To properly use this library, you must deal with those exceptions well.
+> [!WARNING]
+> To properly use this library, you must deal with those exceptions well.
 
 ## Features
 - Portable: No files are storaged in the local file system.
